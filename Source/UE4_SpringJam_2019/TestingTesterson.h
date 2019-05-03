@@ -34,7 +34,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 		bool CallMe(TestEnumm WhateverThisIs);
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float ThisFloat;
 };
 
