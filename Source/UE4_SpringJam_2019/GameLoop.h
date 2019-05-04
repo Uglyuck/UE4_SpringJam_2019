@@ -73,12 +73,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void NewGame();
 	UFUNCTION(BlueprintCallable)
-		UCustomer* getNextCustomer();
+		ACustomer* getNextCustomer();
 	UFUNCTION(BlueprintCallable)
 		void NextDay();
 
 
 private:
-	UCustomer* Customers[50];
+	ACustomer* Customers[50];
 	int n;
 };

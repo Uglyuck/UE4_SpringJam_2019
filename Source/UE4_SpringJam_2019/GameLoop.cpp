@@ -30,11 +30,11 @@ void AGameLoop::NewGame()
 	DayNumber = 1;
 	n = 0;
 	
-	UCustomer* uc = CreateDefaultSubobject<UCustomer>(TEXT("T"));
+	ACustomer* uc = CreateDefaultSubobject<ACustomer>(TEXT("T"));
 	Customers[0] = uc;
 }
 
-UCustomer* AGameLoop::getNextCustomer()
+ACustomer* AGameLoop::getNextCustomer()
 {
 	return Customers[n];
 	//return nullptr;
