@@ -9,6 +9,9 @@ UCustomer::UCustomer()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
+
+	CustomerType = Customer;
+
 }
 
 
@@ -26,9 +29,9 @@ void UCustomer::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 }
 
 
-FText UCustomer::getDialog()
+FString UCustomer::getDialog()
 {
-	return FText();
+	return FString(TEXT("Hello there, arrows to defeat a Fire Breathing Racoon. Do you have any?"));
 }
 
 

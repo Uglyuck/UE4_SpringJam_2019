@@ -69,7 +69,7 @@ public:
 		float Charisma;
 
 	UFUNCTION(BlueprintCallable)
-		FText getDialog();
+		FString getDialog();
 	UFUNCTION(BlueprintCallable)
 		bool ReceiveItem(FItem i);
 	UFUNCTION(BlueprintCallable)
