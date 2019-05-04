@@ -4,11 +4,11 @@
 #include "Customer.h"
 
 // Sets default values for this component's properties
-UCustomer::UCustomer()
+ACustomer::ACustomer()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
+	//PrimaryComponentTick.bCanEverTick = false;
 
 	CustomerType = Customer;
 
@@ -16,20 +16,23 @@ UCustomer::UCustomer()
 
 
 // Called when the game starts
-void UCustomer::BeginPlay()
+void ACustomer::BeginPlay()
 {
 	Super::BeginPlay();
 }
 
 
 // Called every frame
-void UCustomer::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+/*
+void ACustomer::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
+*/
+void ACustomer::Tick(float DeltaTime) { Super::Tick(DeltaTime); }
 
 
-FString UCustomer::getDialog()
+FString ACustomer::getDialog()
 {
 	return FString(TEXT("Hello there, arrows to defeat a Fire Breathing Racoon. Do you have any?"));
 }
@@ -37,22 +40,22 @@ FString UCustomer::getDialog()
 
 
 
-bool UCustomer::ReceiveItem(FItem i)
+bool ACustomer::ReceiveItem(FItem i)
 {
 	return false;
 }
 
-bool UCustomer::Ransom(bool Decision)
+bool ACustomer::Ransom(bool Decision)
 {
 	return Decision;
 }
 
-bool UCustomer::SellItem(FItem i)
+bool ACustomer::SellItem(FItem i)
 {
 	return true;
 }
 
-bool UCustomer::StealItem()
+bool ACustomer::StealItem()
 {
 	return true;
 }

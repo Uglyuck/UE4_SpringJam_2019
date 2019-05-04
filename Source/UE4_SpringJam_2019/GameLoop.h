@@ -3,7 +3,8 @@
 #pragma once
 #include "Customer.h" 
 #include "CoreMinimal.h"
-#include "Components/SceneComponent.h"
+//#include "Components/SceneComponent.h"
+#include "GameFramework/Actor.h"
 #include "GameLoop.generated.h"
 
 
@@ -30,11 +31,11 @@ public:
 */
 
 UCLASS(BlueprintType)
-class UGameLoop : public USceneComponent
+class AGameLoop : public AActor
 {
 	GENERATED_BODY()
 public:
-	UGameLoop();
+	AGameLoop();
 
 protected:
 	// Called when the game starts
@@ -42,7 +43,8 @@ protected:
 
 public:
 	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	//virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int32 Store_Coin;

@@ -4,24 +4,26 @@
 #include "GameLoop.h"
 
 // Sets default values for this component's properties
-UGameLoop::UGameLoop()
-{PrimaryComponentTick.bCanEverTick = false;}
+AGameLoop::AGameLoop()
+{//PrimaryComponentTick.bCanEverTick = false;
+}
 
 
 // Called when the game starts
-void UGameLoop::BeginPlay()
+void AGameLoop::BeginPlay()
 {Super::BeginPlay();}
 
 
 // Called every frame
-void UGameLoop::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+/*
+void AGameLoop::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {Super::TickComponent(DeltaTime, TickType, ThisTickFunction);}
+*/
+
+void AGameLoop::Tick(float DeltaTime){ Super::Tick(DeltaTime); }
 
 
-
-
-
-void UGameLoop::NewGame()
+void AGameLoop::NewGame()
 {
 	RentMade = true;
 	Store_Coin = 500;
@@ -32,13 +34,13 @@ void UGameLoop::NewGame()
 	Customers[0] = uc;
 }
 
-UCustomer* UGameLoop::getNextCustomer()
+UCustomer* AGameLoop::getNextCustomer()
 {
 	return Customers[n];
 	//return nullptr;
 }
 
-void UGameLoop::NextDay()
+void AGameLoop::NextDay()
 {
 	DayNumber++;
 }

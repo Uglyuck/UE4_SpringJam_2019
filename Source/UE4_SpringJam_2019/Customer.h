@@ -3,7 +3,8 @@
 #pragma once
 #include "Stock.h"
 #include "CoreMinimal.h"
-#include "Components/SceneComponent.h"
+//#include "Components/SceneComponent.h"
+#include "GameFramework/Actor.h"
 #include "Customer.generated.h"
 
 /*
@@ -30,7 +31,7 @@ public:
 
 
 UCLASS(BlueprintType)
-class UCustomer : public USceneComponent
+class ACustomer : public AActor
 {
 	GENERATED_BODY()
 
@@ -41,10 +42,11 @@ protected:
 
 public:
 	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	//virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual void Tick(float DeltaTime) override;
 
 public:
-	UCustomer();
+	ACustomer();
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString MeshName;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
