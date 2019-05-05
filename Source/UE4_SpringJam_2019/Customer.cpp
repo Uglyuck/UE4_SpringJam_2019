@@ -2,6 +2,9 @@
 
 
 #include "Customer.h"
+#include "exception"
+#include "AllSingletons.h"
+
 
 // Sets default values for this component's properties
 ACustomer::ACustomer()
@@ -9,7 +12,13 @@ ACustomer::ACustomer()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	//PrimaryComponentTick.bCanEverTick = false;
-
+	//UAllSingletons* fdsakjlfdsa = Cast<UAllSingletons>(GetGameInstance());
+	//v->CountMe++;
+	//UE_LOG(LogTemp, Warning, (FString::FromInt(fdsakjlfdsa->CountMe)));
+	//UE_LOG(LogTemp, Warning, TEXT( "" + fdsakjlfdsa->CountMe ));
+	//int i = fdsakjlfdsa->CountMe;
+	//UE_LOG(LogTemp, Warning, TEXT( " %i"), i);
+	UE_LOG(LogTemp, Warning, TEXT("Customer Created"));
 	CustomerType = Customer;
 
 }
@@ -34,6 +43,22 @@ void ACustomer::Tick(float DeltaTime) { Super::Tick(DeltaTime); }
 
 FString ACustomer::getDialog()
 {
+	/*
+	try
+	{
+		UAllSingletons* fdsakjlfdsa = Cast<UAllSingletons>(GetGameInstance());
+		if(fdsakjlfdsa)
+		{
+			fdsakjlfdsa->CountMe++;
+			int i = fdsakjlfdsa->CountMe;
+			UE_LOG(LogTemp, Warning, TEXT( " %i"), i);
+		}
+	}
+	catch (std::exception& e)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("%s"), e.what() );
+	}
+	*/
 	return FString(TEXT("Hello there, arrows to defeat a Fire Breathing Racoon. Do you have any?"));
 }
 

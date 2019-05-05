@@ -5,7 +5,9 @@
 #include "CoreMinimal.h"
 //#include "Components/SceneComponent.h"
 #include "GameFramework/Actor.h"
+//#include "Engine/GameInstance.h"
 #include "GameLoop.generated.h"
+
 
 
 /*
@@ -36,7 +38,7 @@ class AGameLoop : public AActor
 	GENERATED_BODY()
 public:
 	AGameLoop();
-
+	
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -82,3 +84,5 @@ private:
 	ACustomer* Customers[50];
 	int n;
 };
+
+

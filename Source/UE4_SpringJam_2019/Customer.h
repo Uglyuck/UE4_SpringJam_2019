@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
+
 #include "Stock.h"
 #include "CoreMinimal.h"
 //#include "Components/SceneComponent.h"
@@ -80,7 +81,9 @@ public:
 		bool SellItem(FItem i);
 	UFUNCTION(BlueprintCallable)
 		bool StealItem();
+
 private:
 	FItem StolenItem;
 };
+
 
