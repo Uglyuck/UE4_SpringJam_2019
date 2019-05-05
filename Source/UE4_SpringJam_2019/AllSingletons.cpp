@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+/*/
 
 #include "AllSingletons.h"
 
@@ -31,6 +31,7 @@ void UAllSingletons::Shutdown()
 		GameLoopInstance->ClearStoredActors();
 		GameLoopInstance->ClearLevelStorage();
 		ClearPlayerInventoryCache();
-		*/
+		
 	}
 }
+*/

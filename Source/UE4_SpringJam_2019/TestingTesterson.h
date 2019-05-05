@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+/*
 #pragma once
 
 #include "CoreMinimal.h"
@@ -34,7 +34,7 @@ public:
 };
 
 */
-
+/*
 
 
 UENUM(BlueprintType)
@@ -47,7 +47,7 @@ enum TestEnumm
 /*
 This is to see if you can see me from the header.
 */
-
+/*
 
 //UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 UCLASS()
@@ -68,14 +68,14 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	/*
 	This is to see if you can see me from the header.
-	*/
+	
 	UFUNCTION(BlueprintCallable)
 		bool CallMe(TestEnumm WhateverThisIs);
 	/*
 	This is to see if you can see me from the header.
-	*/
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float ThisFloat;
 };
 
-
+*/

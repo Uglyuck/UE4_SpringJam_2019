@@ -9,6 +9,7 @@
 
 
 
+
 /*
 	All Enums to be used!
 */
@@ -26,8 +27,8 @@ enum eElement
 	Neutral   UMETA(DisplayName = "Neutral"),
 	Fire   UMETA(DisplayName = "Fire"),
 	Water  UMETA(DisplayName = "Water"),
-	Earth  UMETA(DisplayName = "Earth"),
-	Ice    UMETA(DisplayName = "Ice")
+	Earth  UMETA(DisplayName = "Dark"),
+	Ice    UMETA(DisplayName = "Light")
 };
 
 UENUM(BlueprintType)

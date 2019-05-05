@@ -1,5 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
-
+/*
 
 #include "Customer.h"
 #include "exception"
@@ -31,13 +31,6 @@ void ACustomer::BeginPlay()
 }
 
 
-// Called every frame
-/*
-void ACustomer::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-}
-*/
 void ACustomer::Tick(float DeltaTime) { Super::Tick(DeltaTime); }
 
 
@@ -58,7 +51,7 @@ FString ACustomer::getDialog()
 	{
 		UE_LOG(LogTemp, Warning, TEXT("%s"), e.what() );
 	}
-	*/
+	*//*
 	return FString(TEXT("Hello there, arrows to defeat a Fire Breathing Racoon. Do you have any?"));
 }
 
@@ -84,3 +77,4 @@ bool ACustomer::StealItem()
 {
 	return true;
 }
+*/
