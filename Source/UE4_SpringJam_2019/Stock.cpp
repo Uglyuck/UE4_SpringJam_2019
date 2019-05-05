@@ -17,6 +17,7 @@ UStock::UStock()
 }
 
 
+
 // Called when the game starts
 void UStock::BeginPlay()
 {

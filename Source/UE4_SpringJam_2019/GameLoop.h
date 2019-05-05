@@ -111,6 +111,7 @@ public:
 		TArray<FCustomer> Customers;
 
 
+
 	// Functions
 	UFUNCTION(BlueprintCallable)
 		void NewGame();

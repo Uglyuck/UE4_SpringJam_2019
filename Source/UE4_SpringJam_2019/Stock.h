@@ -152,6 +152,7 @@ public:
 };
 
 
+
 USTRUCT(BlueprintType)
 struct FStocks : public FTableRowBase
 {
