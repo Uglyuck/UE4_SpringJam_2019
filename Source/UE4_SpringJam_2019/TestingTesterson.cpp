@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+/*
 #include "TestingTesterson.h"
 
 // Sets default values for this component's properties
@@ -33,7 +33,7 @@ void UTestingTesterson::TickComponent(float DeltaTime, ELevelTick TickType, FAct
 }
 /*
    This is to see if you can see me from the CPP.
-   */
+   
 bool UTestingTesterson::CallMe(TestEnumm WhateverThisIs)
 {
 	if (WhateverThisIs == ThisMayWork)
@@ -42,3 +42,4 @@ bool UTestingTesterson::CallMe(TestEnumm WhateverThisIs)
 	}
 	return false;
 }
+*/
