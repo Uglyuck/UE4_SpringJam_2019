@@ -11,12 +11,12 @@ AGameLoop::AGameLoop()
 	//NewGame();
 	UE_LOG(LogTemp, Warning, TEXT("GameLoop Being Made"));
 	
-	Setup_StoreCoin = 0;
-	Setup_RentCost = 0;
+	Setup_StoreCoin = 50;
+	Setup_RentCost = 30;
 	Setup_MobBossCount = 5;
 	Setup_GovBossCount = 5;
-	Setup_MobBossCooldown = 0;
-	Setup_GovBossCooldown = 0;
+	Setup_MobBossCooldown = 5;
+	Setup_GovBossCooldown = 5;
 	Setup_MobRatio = 0.5f;
 	Setup_MaxStartCooldown = 5;
 	srand(int(FDateTime::Now().GetTicks()));
@@ -143,7 +143,7 @@ void AGameLoop::NewGame()
 	for (int x = Setup_GovBossCount; x--;)
 	{
 		Customers[t - x].CustomerType = eCustomerType::Boss;
-		Customers[x].ResetTime = Setup_GovBossCooldown;
+		Customers[t - x].ResetTime = Setup_GovBossCooldown;
 	}
 
 
