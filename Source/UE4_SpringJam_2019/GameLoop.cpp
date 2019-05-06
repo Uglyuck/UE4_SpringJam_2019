@@ -13,12 +13,12 @@ AGameLoop::AGameLoop()
 	
 	Setup_StoreCoin = 50;
 	Setup_RentCost = 30;
-	Setup_MobBossCount = 5;
-	Setup_GovBossCount = 5;
-	Setup_MobBossCooldown = 5;
-	Setup_GovBossCooldown = 5;
-	Setup_MobRatio = 0.5f;
-	Setup_MaxStartCooldown = 5;
+	Setup_MobBossCount = 3;
+	Setup_GovBossCount = 3;
+	Setup_MobBossCooldown = 6;
+	Setup_GovBossCooldown = 6;
+	Setup_MobRatio = 0.3f;
+	Setup_MaxStartCooldown = 10;
 	srand(int(FDateTime::Now().GetTicks()));
 
 
@@ -223,6 +223,13 @@ constexpr int n()
 */
 TArray<int32> AGameLoop::getDaysCustomers()
 {
+	//Reset prior day.....
+	PriorDayCoin = Store_Coin;
+	Prior_Kingdom_Status = Kingdom_Status;
+
+
+
+	bool BossHits[2] = {false, false};
 	UE_LOG(LogTemp, Warning, TEXT("Getting all the customers"));
 	int GetCount = 0;
 	for (int x = Customers.Num(); x--;)
@@ -238,6 +245,15 @@ TArray<int32> AGameLoop::getDaysCustomers()
 	
 	for (int x = Customers.Num(); x--;)
 	{
+		// One  boss of each type per day max
+		if (Customers[x].CoolDownTime <= 0 && Customers[x].CustomerType == eCustomerType::Boss)
+		{
+			if (BossHits[Customers[x].Affiliation == eAffiliation::Gov])
+			{
+				Customers[x].CoolDownTime++;
+			}
+			BossHits[Customers[x].Affiliation == eAffiliation::Gov] = true;
+		}
 		if (Customers[x].CoolDownTime <= 0)
 		{
 			
@@ -274,13 +290,6 @@ TArray<int32> AGameLoop::getDaysCustomers()
 	}
 	return ReturningCustomers;//TArray<int32>();
 }
-
-
-void AGameLoop::NextDay()
-{
-	DayNumber++;
-}
-
 
 
 
@@ -454,29 +463,12 @@ bool AGameLoop::ReceiveItem(int32 Customer, FItem i)
 
 	// Remove from inventory
 	UE_LOG(LogTemp, Warning, TEXT("      Now Trying To Load ItemDescriptions  "));
-	if (Store_stock)
+	if (removeItem(i))
 	{
-		static const FString ContextString(TEXT("Item"));
-		TArray<FName> RowNames;
-		RowNames = Store_stock->GetRowNames();
-		for (auto& name : RowNames)
-		{
-			FStocks* row = Store_stock->FindRow<FStocks>(name, ContextString);
-			if (row)
-			{
-				if (row->Item == i)
-				{
-					UE_LOG(LogTemp, Warning, TEXT("Found at: %s"), *(row->Item.InventoryDescription));
-					CustHappy = true;
-					Store_Coin += GetItemValue(&i, Prior_Kingdom_Status);
-					row->Count--;
-				}
-				//UE_LOG(LogTemp, Warning, TEXT("Looking at: %s"), *(row->InventoryDescription));
-			}
-		}
+		CustHappy = true;
+		Store_Coin += GetItemValue(&i, Prior_Kingdom_Status);
 	}
-	else
-		UE_LOG(LogTemp, Warning, TEXT("Datatable Not Loaded"));
+	
 
 	if (!CustHappy)
 	{
@@ -501,8 +493,7 @@ bool AGameLoop::ReceiveItem(int32 Customer, FItem i)
 		}
 	}
 	EffectKingdom(cust, CustHappy);
-	cust->CoolDownTime += cust->ResetTime + (-0.5 * cust->Satisfaction);
-	cust->CoolDownTime = cust->CoolDownTime < 2? 2: cust->CoolDownTime;
+	SetCooldown(cust);
 	//If not 
 	return CustHappy;
 	//return false;
@@ -537,20 +528,88 @@ bool AGameLoop::SellItem(int32 Customer, FItem i, int32 value)
 	{
 		CustHappy = false;
 	}
+	// Add to inventory
+	AddItem(i);
+
+
 	EffectKingdom(cust, CustHappy);
-	cust->CoolDownTime += cust->ResetTime + (-0.5 * cust->Satisfaction);
-	cust->CoolDownTime = cust->CoolDownTime < 2 ? 2 : cust->CoolDownTime;
+	SetCooldown(cust);
 	return CustHappy;
 }
 
+
+void AGameLoop::NextDay()
+{
+	RentMade = RentCost < Store_Coin;
+	if (RentMade)
+	{
+		Store_Coin -= RentCost;
+		RentMissed = 0;
+	}
+	else
+	{
+		RentMissed++;
+		if (RentMissed >= 3)
+		{
+			Playing == false;
+		}
+	}
+
+	DayNumber++;
+	if (Kingdom_Status < 0)
+	{
+		Playing == false;
+	}
+	// Move people
+	bool KingdomDown = Prior_Kingdom_Status > Kingdom_Status;
+	for (int x = Customers.Num(); x--;)
+	{
+		Customers[x].CoolDownTime--;
+		if (KingdomDown && Customers[x].Affiliation == eAffiliation::Mob)
+		{
+			if (Customers[x].CustomerType == eCustomerType::Customer)
+				Customers[x].CoolDownTime--;
+			else
+			{
+				Customers[x].ResetTime = Customers[x].ResetTime > Setup_GovBossCount? Customers[x].ResetTime -1 : Setup_GovBossCount;
+			}
+			
+		}
+	}
+	// Call afterwards....
+	//PriorDayCoin = Store_Coin;
+	//Prior_Kingdom_Status = Kingdom_Status;
+	
+}
+
+
+
 FItem AGameLoop::StealItem(int32 Customer)
 {
-	return FItem();
+	FItem MyItem = FItem();
+	if (PlayerAffiliation == Customers[Customer].Affiliation && PlayerAffiliation != eAffiliation::NA)
+	{
+		TArray<FItem> myItems = GetAllStock();
+		if (myItems.Num() > 0)
+		{
+			MyItem = myItems[rand() % myItems.Num()];
+			if(removeItem(MyItem)) return MyItem;
+		}
+	}
+	return MyItem;
 }
 
 void AGameLoop::CraftItem(FItem CraftedItem)
 {
+	AddItem(CraftedItem);
 }
+
+
+
+
+
+
+
 
 int32 AGameLoop::GetItemValue(FItem* item, float KingdomStatus)
 {
@@ -568,5 +627,84 @@ void AGameLoop::EffectKingdom(FCustomer * cust, bool Happy)
 	{
 		cust->Satisfaction--;
 		Kingdom_Status += (cust->Quest.impact) * (cust->Affiliation == eAffiliation::Mob ? 1 : -1);
+	}
+}
+
+void AGameLoop::SetCooldown(FCustomer * cust)
+{
+	cust->CoolDownTime += cust->ResetTime + (-0.5 * cust->Satisfaction);
+	cust->CoolDownTime = cust->CoolDownTime < 3 ? 3 : cust->CoolDownTime;
+}
+
+TArray<FItem> AGameLoop::GetAllStock()
+{
+	TArray<FItem> Items;
+	for (auto& name : Store_stock->GetRowNames())
+	{
+		FStocks* row = Store_stock->FindRow<FStocks>(name, "MySTuff");
+		//&row->InventoryDescription
+		if (row)
+		{
+			if(row->Count > 0)
+			{
+				Items.Add(row->Item);
+			}
+		}
+	}
+	return Items;
+}
+
+bool AGameLoop::removeItem(FItem item)
+{
+	bool found = false;
+	if (Store_stock)
+	{
+		TArray<FName> RowNames;
+		RowNames = Store_stock->GetRowNames();
+		for (auto& name : RowNames)
+		{
+			FStocks* row = Store_stock->FindRow<FStocks>(name, "Removing Item");
+			if (row)
+			{
+				if (row->Item == item)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Removing from Inventory: %s"), *(row->Item.InventoryDescription));
+					row->Count--;
+					found = true;
+				}
+			}
+		}
+	}
+	if (!found)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Item not able to be removed from Inventory: %s"), *(item.InventoryDescription));
+	}
+	return found;
+}
+
+void AGameLoop::AddItem(FItem item)
+{
+	bool found = false;
+	if (Store_stock)
+	{
+		TArray<FName> RowNames;
+		RowNames = Store_stock->GetRowNames();
+		for (auto& name : RowNames)
+		{
+			FStocks* row = Store_stock->FindRow<FStocks>(name, "Adding Item");
+			if (row)
+			{
+				if (row->Item == item)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Adding to inventory: %s"), *(row->Item.InventoryDescription));
+					row->Count++;
+					found = true;
+				}
+			}
+		}
+	}
+	if (!found)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Item not found in Inventory: %s"), *(item.InventoryDescription));
 	}
 }
