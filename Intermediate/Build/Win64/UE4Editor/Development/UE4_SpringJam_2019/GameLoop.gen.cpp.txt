@@ -1,0 +1,10 @@
+E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\Definitions.UE4_SpringJam_2019.h
+C:\Program Files\Epic Games\UE_4.22\Engine\Source\Runtime\CoreUObject\Public\UObject/GeneratedCppIncludes.h
+C:\Program Files\Epic Games\UE_4.22\Engine\Source\Runtime\CoreUObject\Public\UObject/MetaData.h
+E:\Game Development\Unreal\UE4_SpringJam_2019\Source\UE4_SpringJam_2019/GameLoop.h
+e:\game development\unreal\ue4_springjam_2019\source\ue4_springjam_2019\Stock.h
+C:\Program Files\Epic Games\UE_4.22\Engine\Source\Runtime\Engine\Classes\Engine/DataTable.h
+C:\Program Files\Epic Games\UE_4.22\Engine\Source\Runtime\Engine\Public\DataTableUtils.h
+C:\Program Files\Epic Games\UE_4.22\Engine\Intermediate\Build\Win64\UE4Editor\Inc\Engine\DataTable.generated.h
+e:\game development\unreal\ue4_springjam_2019\intermediate\build\win64\ue4editor\inc\ue4_springjam_2019\Stock.generated.h
+e:\game development\unreal\ue4_springjam_2019\intermediate\build\win64\ue4editor\inc\ue4_springjam_2019\GameLoop.generated.h

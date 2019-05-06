@@ -1,0 +1,28 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-UE4_SpringJam_2019-2687.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4_SpringJam_2019Editor\Development\Engine\SharedPCH.Engine.h.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\Customer.cpp.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\GameLoop.cpp.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\MyActor.cpp.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\MyStaticClass.cpp.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\Stock.cpp.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\TestEnum.cpp.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\TestEnums.cpp.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\TestingTesterson.cpp.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\UE4_SpringJam_2019.cpp.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\Customer.gen.cpp.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\GameLoop.gen.cpp.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\MyActor.gen.cpp.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\MyStaticClass.gen.cpp.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\Stock.gen.cpp.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\TestingTesterson.gen.cpp.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\UE4_SpringJam_2019.init.gen.cpp.obj"
+"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\Default.rc2.res"
+/OUT:"E:\Game Development\Unreal\UE4_SpringJam_2019\Intermediate\Build\Win64\UE4Editor\Development\UE4_SpringJam_2019\UE4Editor-UE4_SpringJam_2019-2687.lib"
+/INCLUDE:IMPLEMENT_MODULE_UE4_SpringJam_2019

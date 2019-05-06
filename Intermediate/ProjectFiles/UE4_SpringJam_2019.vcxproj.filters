@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\UE4_SpringJam_2019.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{D0AD3135-4660-404B-BD60-1C7AE4DE642B}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\UE4_SpringJam_2019.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\UE4_SpringJam_2019Editor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\.gitignore" />
+    <None Include="..\..\3aff9367-70a8-462e-a988-30983723b37a-Screen_Shot_2019-04-30_at_11.22.41_AM.jpg" />
+    <None Include="..\..\58662336_10216707187406595_7946107445162541056_n.jpg" />
+    <None Include="..\..\59039501_849586468732149_7610761325018349568_n.jpg" />
+    <None Include="..\..\Flowchart.pdf" />
+    <None Include="..\..\Flowchart.vsdx" />
+    <None Include="..\..\README.md" />
+    <None Include="..\..\UML.jpg" />
+    <None Include="..\..\UML.vsdx" />
+    <None Include="..\..\~$$UML.~vsdx" />
+    <Filter Include="Config">
+      <UniqueIdentifier>{D3DF629A-417F-4F7E-B64B-56448891CB84}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\UE4_SpringJam_2019">
+      <UniqueIdentifier>{F7106B98-76AA-49FD-BDED-1E85D1EF3379}</UniqueIdentifier>
+    </Filter>
+    <ClCompile Include="..\..\Source\UE4_SpringJam_2019\TestingTesterson.cpp">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\UE4_SpringJam_2019\TestingTesterson.h">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </ClInclude>
+    <None Include="..\..\Source\UE4_SpringJam_2019\UE4_SpringJam_2019.Build.cs">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\UE4_SpringJam_2019\UE4_SpringJam_2019.cpp">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\UE4_SpringJam_2019\UE4_SpringJam_2019.h">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\UE4_SpringJam_2019\Stock.h">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UE4_SpringJam_2019\GameLoop.h">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UE4_SpringJam_2019\Customer.h">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UE4_SpringJam_2019\MyActor.h">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UE4_SpringJam_2019\MyStaticClass.h">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\UE4_SpringJam_2019\AllSingletons.h">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\UE4_SpringJam_2019\Stock.cpp">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UE4_SpringJam_2019\GameLoop.cpp">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UE4_SpringJam_2019\Customer.cpp">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UE4_SpringJam_2019\MyActor.cpp">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UE4_SpringJam_2019\MyStaticClass.cpp">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\UE4_SpringJam_2019\AllSingletons.cpp">
+      <Filter>Source\UE4_SpringJam_2019</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
