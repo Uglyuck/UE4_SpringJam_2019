@@ -149,6 +149,11 @@ public:
 		FString Dialog;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float impact;
+
+	bool operator==(FQuest &o)
+	{
+		return o.QuestName.Equals(QuestName) && Dialog.Equals(o.Dialog);// && impact == o.impact;
+	}
 };
 
 
