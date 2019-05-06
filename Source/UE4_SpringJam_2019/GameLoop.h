@@ -137,6 +137,7 @@ public:
 		FItem StealItem(int32 Customer);
 	UFUNCTION(BlueprintCallable)
 		void CraftItem(FItem CraftedItem);
+
 		/*
 	UFUNCTION(BlueprintCallable)
 		void CraftItem(FItem CraftedItem);
@@ -147,6 +148,10 @@ private:
 	int TotalItems;
 	int32 GetItemValue(FItem* item, float KingdomStatus);
 	void EffectKingdom(FCustomer* cust, bool Happy);
+	void SetCooldown(FCustomer* cust);
+	TArray <FItem> GetAllStock();
+	bool removeItem(FItem item);
+	void AddItem(FItem item);
 	//FItem* FindItem(FItem myItem);
 };
 
