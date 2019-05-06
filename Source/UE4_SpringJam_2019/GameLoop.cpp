@@ -156,17 +156,22 @@ void AGameLoop::NewGame()
 	}
 	
 	// Setup Bosses
-	for (int x = Setup_MobBossCount; x--;)
+	if (Setup_MobBossCount > 0)
+	for (int x = Setup_MobBossCount -1; x--;)
 	{
 		Customers[x].CustomerType = eCustomerType::Boss;
 		Customers[x].ResetTime = Setup_MobBossCooldown;
 		Customers[x].Gold = RansomeAmount;
 	}
-	for (int x = Setup_GovBossCount; x--;)
+	if(Setup_GovBossCount > 0)
 	{
-		Customers[t - x].CustomerType = eCustomerType::Boss;
-		Customers[t - x].ResetTime = Setup_GovBossCooldown;
-		Customers[t - x].Gold = RansomeAmount;
+		t = Customers.Num();
+		for (int x = t - Setup_GovBossCount -1; x < t; x++)
+		{
+			Customers[x].CustomerType = eCustomerType::Boss;
+			Customers[x].ResetTime = Setup_GovBossCooldown;
+			Customers[x].Gold = RansomeAmount;
+		}
 	}
 	
 	
