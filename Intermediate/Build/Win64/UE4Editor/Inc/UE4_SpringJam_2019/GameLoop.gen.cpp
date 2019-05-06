@@ -15,6 +15,7 @@ void EmptyLinkFunctionForGeneratedCodeGameLoop() {}
 // Cross Module References
 	UE4_SPRINGJAM_2019_API UScriptStruct* Z_Construct_UScriptStruct_FCustomer();
 	UPackage* Z_Construct_UPackage__Script_UE4_SpringJam_2019();
+	UE4_SPRINGJAM_2019_API UScriptStruct* Z_Construct_UScriptStruct_FItem();
 	UE4_SPRINGJAM_2019_API UScriptStruct* Z_Construct_UScriptStruct_FQuest();
 	UE4_SPRINGJAM_2019_API UEnum* Z_Construct_UEnum_UE4_SpringJam_2019_eElement();
 	UE4_SPRINGJAM_2019_API UEnum* Z_Construct_UEnum_UE4_SpringJam_2019_eShopRequests();
@@ -25,7 +26,6 @@ void EmptyLinkFunctionForGeneratedCodeGameLoop() {}
 	UE4_SPRINGJAM_2019_API UClass* Z_Construct_UClass_AGameLoop();
 	ENGINE_API UClass* Z_Construct_UClass_AActor();
 	UE4_SPRINGJAM_2019_API UFunction* Z_Construct_UFunction_AGameLoop_CraftItem();
-	UE4_SPRINGJAM_2019_API UScriptStruct* Z_Construct_UScriptStruct_FItem();
 	UE4_SPRINGJAM_2019_API UFunction* Z_Construct_UFunction_AGameLoop_getDaysCustomers();
 	UE4_SPRINGJAM_2019_API UFunction* Z_Construct_UFunction_AGameLoop_getDialog();
 	UE4_SPRINGJAM_2019_API UFunction* Z_Construct_UFunction_AGameLoop_NewGame();
@@ -89,6 +89,10 @@ static struct FScriptStruct_UE4_SpringJam_2019_StaticRegisterNativesFCustomer
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CoolDownTime_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FIntPropertyParams NewProp_CoolDownTime;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_SellItem_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_SellItem;
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_Quest_MetaData[];
 #endif
@@ -181,6 +185,13 @@ static struct FScriptStruct_UE4_SpringJam_2019_StaticRegisterNativesFCustomer
 #endif
 	const UE4CodeGen_Private::FIntPropertyParams Z_Construct_UScriptStruct_FCustomer_Statics::NewProp_CoolDownTime = { "CoolDownTime", nullptr, (EPropertyFlags)0x0010000000000005, UE4CodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(FCustomer, CoolDownTime), METADATA_PARAMS(Z_Construct_UScriptStruct_FCustomer_Statics::NewProp_CoolDownTime_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FCustomer_Statics::NewProp_CoolDownTime_MetaData)) };
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FCustomer_Statics::NewProp_SellItem_MetaData[] = {
+		{ "Category", "Customer" },
+		{ "ModuleRelativePath", "GameLoop.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UScriptStruct_FCustomer_Statics::NewProp_SellItem = { "SellItem", nullptr, (EPropertyFlags)0x0010000000000005, UE4CodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(FCustomer, SellItem), Z_Construct_UScriptStruct_FItem, METADATA_PARAMS(Z_Construct_UScriptStruct_FCustomer_Statics::NewProp_SellItem_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FCustomer_Statics::NewProp_SellItem_MetaData)) };
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FCustomer_Statics::NewProp_Quest_MetaData[] = {
 		{ "Category", "Customer" },
 		{ "ModuleRelativePath", "GameLoop.h" },
@@ -244,6 +255,7 @@ static struct FScriptStruct_UE4_SpringJam_2019_StaticRegisterNativesFCustomer
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FCustomer_Statics::NewProp_Gold,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FCustomer_Statics::NewProp_ResetTime,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FCustomer_Statics::NewProp_CoolDownTime,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FCustomer_Statics::NewProp_SellItem,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FCustomer_Statics::NewProp_Quest,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FCustomer_Statics::NewProp_Element,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FCustomer_Statics::NewProp_ShopRequest,
@@ -281,7 +293,7 @@ static struct FScriptStruct_UE4_SpringJam_2019_StaticRegisterNativesFCustomer
 		}
 		return ReturnStruct;
 	}
-	uint32 Get_Z_Construct_UScriptStruct_FCustomer_Hash() { return 2937132470U; }
+	uint32 Get_Z_Construct_UScriptStruct_FCustomer_Hash() { return 415824905U; }
 	void AGameLoop::StaticRegisterNativesAGameLoop()
 	{
 		UClass* Class = AGameLoop::StaticClass();
@@ -548,10 +560,12 @@ static struct FScriptStruct_UE4_SpringJam_2019_StaticRegisterNativesFCustomer
 		{
 			int32 Customer;
 			FItem i;
+			int32 value;
 			bool ReturnValue;
 		};
 		static void NewProp_ReturnValue_SetBit(void* Obj);
 		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ReturnValue;
+		static const UE4CodeGen_Private::FIntPropertyParams NewProp_value;
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_i;
 		static const UE4CodeGen_Private::FIntPropertyParams NewProp_Customer;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
@@ -565,10 +579,12 @@ static struct FScriptStruct_UE4_SpringJam_2019_StaticRegisterNativesFCustomer
 		((GameLoop_eventSellItem_Parms*)Obj)->ReturnValue = 1;
 	}
 	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_AGameLoop_SellItem_Statics::NewProp_ReturnValue = { "ReturnValue", nullptr, (EPropertyFlags)0x0010000000000580, UE4CodeGen_Private::EPropertyGenFlags::Bool | UE4CodeGen_Private::EPropertyGenFlags::NativeBool, RF_Public|RF_Transient|RF_MarkAsNative, 1, sizeof(bool), sizeof(GameLoop_eventSellItem_Parms), &Z_Construct_UFunction_AGameLoop_SellItem_Statics::NewProp_ReturnValue_SetBit, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FIntPropertyParams Z_Construct_UFunction_AGameLoop_SellItem_Statics::NewProp_value = { "value", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(GameLoop_eventSellItem_Parms, value), METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_AGameLoop_SellItem_Statics::NewProp_i = { "i", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Struct, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(GameLoop_eventSellItem_Parms, i), Z_Construct_UScriptStruct_FItem, METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FIntPropertyParams Z_Construct_UFunction_AGameLoop_SellItem_Statics::NewProp_Customer = { "Customer", nullptr, (EPropertyFlags)0x0010000000000080, UE4CodeGen_Private::EPropertyGenFlags::Int, RF_Public|RF_Transient|RF_MarkAsNative, 1, STRUCT_OFFSET(GameLoop_eventSellItem_Parms, Customer), METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_AGameLoop_SellItem_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AGameLoop_SellItem_Statics::NewProp_ReturnValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AGameLoop_SellItem_Statics::NewProp_value,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AGameLoop_SellItem_Statics::NewProp_i,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AGameLoop_SellItem_Statics::NewProp_Customer,
 	};
@@ -737,7 +753,7 @@ static struct FScriptStruct_UE4_SpringJam_2019_StaticRegisterNativesFCustomer
 		{ &Z_Construct_UFunction_AGameLoop_NextDay, "NextDay" }, // 129212842
 		{ &Z_Construct_UFunction_AGameLoop_Ransom, "Ransom" }, // 3012191184
 		{ &Z_Construct_UFunction_AGameLoop_ReceiveItem, "ReceiveItem" }, // 2750178091
-		{ &Z_Construct_UFunction_AGameLoop_SellItem, "SellItem" }, // 1729635536
+		{ &Z_Construct_UFunction_AGameLoop_SellItem, "SellItem" }, // 2017725803
 		{ &Z_Construct_UFunction_AGameLoop_StealItem, "StealItem" }, // 3263607203
 	};
 #if WITH_METADATA
@@ -955,7 +971,7 @@ static struct FScriptStruct_UE4_SpringJam_2019_StaticRegisterNativesFCustomer
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AGameLoop, 1841198832);
+	IMPLEMENT_CLASS(AGameLoop, 2964792666);
 	template<> UE4_SPRINGJAM_2019_API UClass* StaticClass<AGameLoop>()
 	{
 		return AGameLoop::StaticClass();

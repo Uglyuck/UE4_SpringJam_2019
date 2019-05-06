@@ -68,7 +68,7 @@ AGameLoop::AGameLoop()
 		UE_LOG(LogTemp, Warning, TEXT("Datatable Not Loaded"));
 
 
-
+	TotalItems = 1;
 
 
 	
@@ -197,8 +197,8 @@ void AGameLoop::NewGame()
 				UE_LOG(LogTemp, Warning, TEXT("Loaded: %s"), *(row->InventoryDescription));
 			}
 		}
+		TotalItems = i;
 	}
-
 	else
 		UE_LOG(LogTemp, Warning, TEXT("Datatable Not Loaded"));
 
@@ -231,6 +231,11 @@ TArray<int32> AGameLoop::getDaysCustomers()
 	{
 		if (Customers[x].CoolDownTime <= 0)
 		{
+			
+			auto& name = Store_stock->GetRowNames()[rand() % TotalItems];
+			FStocks* row = Store_stock->FindRow<FStocks>(name, "Rows");
+			Customers[x].SellItem = row->Item;
+
 			Customers[x].Element = (eElement)(rand() % 5);
 			Customers[x].ItemType = (eItemType) (rand() % 5);
 			Customers[x].ShopRequest = (rand() % 100) - (Setup_BuyRatio *100) <= 0? eShopRequests::Buy : eShopRequests::Sell;
@@ -252,6 +257,7 @@ void AGameLoop::NextDay()
 
 FString AGameLoop::getDialog(int32 Customer)
 {
+	
 	eItemType myItemType= Customers[Customer].ItemType;
 	FString Desc_Item = "";
 	eElement myElement = Customers[Customer].Element;
@@ -332,7 +338,7 @@ bool AGameLoop::Ransom(int32 Customer, bool Decision)
 	return Decision;
 }
 
-bool AGameLoop::SellItem(int32 Customer, FItem i)
+bool AGameLoop::SellItem(int32 Customer, FItem i, int32 value)
 {
 	return false;
 }

@@ -33,6 +33,8 @@ struct FCustomer
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FQuest Quest;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		FItem SellItem;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int32 CoolDownTime;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int32 ResetTime;
@@ -130,7 +132,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 		bool Ransom(int32 Customer, bool Decision);
 	UFUNCTION(BlueprintCallable)
-		bool SellItem(int32 Customer, FItem i);
+		bool SellItem(int32 Customer, FItem i, int32 value);
 	UFUNCTION(BlueprintCallable)
 		FItem StealItem(int32 Customer);
 	UFUNCTION(BlueprintCallable)
@@ -142,7 +144,7 @@ public:
 private:
 	//ACustomer* Customers[50];
 	int n;
-
+	int TotalItems;
 	int32 GetItemValue(FItem* item, float KingdomStatus);
 
 	//FItem* FindItem(FItem myItem);

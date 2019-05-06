@@ -21,7 +21,7 @@ void EmptyLinkFunctionForGeneratedCodeUE4_SpringJam_2019_init() {}
 				nullptr,
 				0,
 				PKG_CompiledIn | 0x00000000,
-				0x52997B96,
+				0x8356FD8E,
 				0xA1003C32,
 				METADATA_PARAMS(nullptr, 0)
 			};
