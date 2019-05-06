@@ -134,6 +134,7 @@ void AGameLoop::NewGame()
 		Customers[x].Satisfaction = 0.5f;
 		Customers[x].ShopRequest = eShopRequests::Buy;
 	}
+	/*
 	// Setup Bosses
 	for (int x = Setup_MobBossCount; x--;)
 	{
@@ -145,7 +146,8 @@ void AGameLoop::NewGame()
 		Customers[t - x].CustomerType = eCustomerType::Boss;
 		Customers[t - x].ResetTime = Setup_GovBossCooldown;
 	}
-
+	*/
+	
 
 	//LoadItems
 	Store_stock->EmptyTable();
