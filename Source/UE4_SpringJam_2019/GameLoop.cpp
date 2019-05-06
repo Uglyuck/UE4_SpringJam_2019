@@ -120,6 +120,7 @@ void AGameLoop::NewGame()
 		{
 			Customers[x].Affiliation = eAffiliation::Gov;
 		}
+		Customers[x].ID = x;
 		Customers[x].Charisma = 0;
 		Customers[x].CoolDownTime = rand() % Setup_MaxStartCooldown;
 		Customers[x].ResetTime = Customers[x].CoolDownTime;

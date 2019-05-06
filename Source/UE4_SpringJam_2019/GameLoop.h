@@ -17,6 +17,8 @@ struct FCustomer
 	GENERATED_USTRUCT_BODY() //GENERATED_BODY()
 //public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		int32 ID;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		FString Name;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TEnumAsByte<eCustomerType> CustomerType;
