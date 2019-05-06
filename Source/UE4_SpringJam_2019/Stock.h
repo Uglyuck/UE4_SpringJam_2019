@@ -80,9 +80,12 @@ public:
 		int32 MaxValue;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int32 StartingCount;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ObjectDefinition)
+		TAssetPtr<UTexture> InventoryTexture;
+	/*
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UTexture2D* InventoryTexture;
-
+	*/
 	bool operator==(FItem &o) 
 	{
 		return o.Element == Element && ItemType == o.ItemType;
