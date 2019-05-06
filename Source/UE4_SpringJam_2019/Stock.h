@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Engine/DataTable.h"
+#include "Engine/Texture2D.h"
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
 #include "Stock.generated.h"
@@ -79,7 +80,12 @@ public:
 		int32 MaxValue;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int32 StartingCount;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ObjectDefinition)
+		TAssetPtr<UTexture> InventoryTexture;
+	/*
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UTexture2D* InventoryTexture;
+	*/
 	bool operator==(FItem &o) 
 	{
 		return o.Element == Element && ItemType == o.ItemType;
@@ -149,6 +155,11 @@ public:
 		FString Dialog;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float impact;
+
+	bool operator==(FQuest &o)
+	{
+		return o.QuestName.Equals(QuestName) && Dialog.Equals(o.Dialog);// && impact == o.impact;
+	}
 };
 
 

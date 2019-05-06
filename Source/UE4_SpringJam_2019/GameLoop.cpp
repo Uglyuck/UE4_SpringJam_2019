@@ -36,7 +36,7 @@ AGameLoop::AGameLoop()
 	myCustomer.Gold = 0;
 // Try out some of this!
 //Customers[x].Name
-	myCustomer.Satisfaction = 0.5f;
+	myCustomer.Satisfaction = 0;
 	myCustomer.ShopRequest = eShopRequests::Buy;
 
 	Customers.Init(myCustomer, 50);
@@ -124,6 +124,7 @@ void AGameLoop::NewGame()
 	RentCost = Setup_RentCost;
 	RentMissed = 0;
 	Prior_Kingdom_Status = 999;
+	Kingdom_Status = 0.5;
 	DayNumber = 1;
 	
 	n = -1;
@@ -153,19 +154,26 @@ void AGameLoop::NewGame()
 		Customers[x].Satisfaction = 0.5f;
 		Customers[x].ShopRequest = eShopRequests::Buy;
 	}
-	/*
+	
 	// Setup Bosses
-	for (int x = Setup_MobBossCount; x--;)
+	if (Setup_MobBossCount > 0)
+	for (int x = Setup_MobBossCount -1; x--;)
 	{
 		Customers[x].CustomerType = eCustomerType::Boss;
 		Customers[x].ResetTime = Setup_MobBossCooldown;
+		Customers[x].Gold = RansomeAmount;
 	}
-	for (int x = Setup_GovBossCount; x--;)
+	if(Setup_GovBossCount > 0)
 	{
-		Customers[t - x].CustomerType = eCustomerType::Boss;
-		Customers[t - x].ResetTime = Setup_GovBossCooldown;
+		t = Customers.Num();
+		for (int x = t - Setup_GovBossCount -1; x < t; x++)
+		{
+			Customers[x].CustomerType = eCustomerType::Boss;
+			Customers[x].ResetTime = Setup_GovBossCooldown;
+			Customers[x].Gold = RansomeAmount;
+		}
 	}
-	*/
+	
 	
 
 	//LoadItems
@@ -203,7 +211,8 @@ void AGameLoop::NewGame()
 		UE_LOG(LogTemp, Warning, TEXT("Datatable Not Loaded"));
 
 
-	Prior_Kingdom_Status = 999;
+	//Prior_Kingdom_Status = 999;
+	Prior_Kingdom_Status = 0.5;
 	
 }
 /*
@@ -232,7 +241,9 @@ TArray<int32> AGameLoop::getDaysCustomers()
 		if (Customers[x].CoolDownTime <= 0)
 		{
 			
-			FName& name = Store_stock->GetRowNames()[rand() % TotalItems];
+			TArray<FName> name2 = Store_stock->GetRowNames();//[rand() % TotalItems];
+			//FName& name = Store_stock->GetRowNames()[rand() % TotalItems];
+			FName& name = name2[rand()%TotalItems];
 			if(name.IsValid())
 			{
 				FStocks* row = Store_stock->FindRow<FStocks>(name, "Rows");
@@ -242,12 +253,13 @@ TArray<int32> AGameLoop::getDaysCustomers()
 				}
 				else
 				{
-					UE_LOG(LogTemp, Warning, TEXT("---- Build issue with your version..."));
+					UE_LOG(LogTemp, Warning, TEXT("---- Build issue with your version - Row..."));
 				}
 			}
 			else
 			{
-				UE_LOG(LogTemp, Warning, TEXT("---- Build issue with your version..."));
+				UE_LOG(LogTemp, Warning, TEXT("---- Build issue with your version - Name... %s"), &name);
+
 			}
 
 			Customers[x].Element = (eElement)(rand() % 5);
@@ -269,6 +281,9 @@ void AGameLoop::NextDay()
 	DayNumber++;
 }
 
+
+
+
 FString AGameLoop::getDialog(int32 Customer)
 {
 	
@@ -276,41 +291,37 @@ FString AGameLoop::getDialog(int32 Customer)
 	FString Desc_Item = "";
 	eElement myElement = Customers[Customer].Element;
 	FString Desc_Element = "";
+	FString Dia_Element = "";
 	eShopRequests myShopRequests = Customers[Customer].ShopRequest;
 	FString Desc_Req = "";
 	FQuest myQuest = Customers[Customer].Quest;
 	FString Desc_Quest = "";
 
-	FStringAssetReference MyAssetPathItem("DataTable'/Game/Mechanics/LookupTables/Item.Item'");
-	FStringAssetReference MyAssetPathElement("DataTable'/Game/Mechanics/LookupTables/Item.Item'");
-	FStringAssetReference MyAssetPathRequest("DataTable'/Game/Mechanics/LookupTables/Item.Item'");
-	FStringAssetReference MyAssetPathQuest("DataTable'/Game/Mechanics/LookupTables/Item.Item'");
+	FStringAssetReference MyAssetPathItem("DataTable'/Game/Mechanics/LookupTables/ItemType.ItemType'");
+	FStringAssetReference MyAssetPathElement("DataTable'/Game/Mechanics/LookupTables/Element.Element'");
+	FStringAssetReference MyAssetPathRequest("DataTable'/Game/Mechanics/LookupTables/ShopRequest.ShopRequest'");
+	FStringAssetReference MyAssetPathQuest("DataTable'/Game/Mechanics/LookupTables/Quest.Quest'");
 
 	UDataTable* DataTable;
 
 	UE_LOG(LogTemp, Warning, TEXT("      Now Trying To Load ItemDescriptions  "));
 	DataTable = (UDataTable*)MyAssetPathItem.TryLoad();
-	//DataTable->EmptyTable();
-	int i = 0;
 	if (DataTable)
 	{
-		FStocks NewItem;
 		static const FString ContextString(TEXT("Item"));
 		TArray<FName> RowNames;
 		RowNames = DataTable->GetRowNames();
 		for (auto& name : RowNames)
 		{
-			FItem* row = DataTable->FindRow<FItem>(name, ContextString);
-			//&row->InventoryDescription
+			FItemType* row = DataTable->FindRow<FItemType>(name, ContextString);
 			if (row)
 			{
-				NewItem.Count = row->StartingCount;
-				NewItem.Type = row->ItemType;
-				NewItem.Element = row->Element;
-				NewItem.Item = *row;
-				NewItem.Value = GetItemValue(row, Kingdom_Status);
-				Store_stock->AddRow(FName(TEXT("New Row" + i++)), NewItem);
-				UE_LOG(LogTemp, Warning, TEXT("Loaded: %s"), *(row->InventoryDescription));
+				if(row->ItemType == myItemType)
+				{
+					//UE_LOG(LogTemp, Warning, TEXT("Found Match at: %s"), *(row->InventoryDescription));
+					Desc_Item = row->Dialog;
+				}
+				//UE_LOG(LogTemp, Warning, TEXT("Looking at: %s"), *(row->InventoryDescription));
 			}
 		}
 	}
@@ -321,6 +332,87 @@ FString AGameLoop::getDialog(int32 Customer)
 
 
 
+	UE_LOG(LogTemp, Warning, TEXT("      Now Trying To Load myElement  "));
+	DataTable = (UDataTable*)MyAssetPathElement.TryLoad();
+	if (DataTable)
+	{
+		static const FString ContextString(TEXT("Element"));
+		TArray<FName> RowNames;
+		RowNames = DataTable->GetRowNames();
+		for (auto& name : RowNames)
+		{
+			FElement* row = DataTable->FindRow<FElement>(name, ContextString);
+			if (row)
+			{
+				if (row->Element == myElement)
+				{
+					//UE_LOG(LogTemp, Warning, TEXT("Found Match at: %s"), *(row->InventoryDescription));
+					Dia_Element = row->Dialog;
+					Desc_Element = row->Dialog;
+				}
+				//UE_LOG(LogTemp, Warning, TEXT("Looking at: %s"), *(row->InventoryDescription));
+			}
+		}
+	}
+	else
+		UE_LOG(LogTemp, Warning, TEXT("Datatable Not Loaded"));
+
+	//myShopRequests
+
+	UE_LOG(LogTemp, Warning, TEXT("      Now Trying To Load Request  "));
+	DataTable = (UDataTable*)MyAssetPathRequest.TryLoad();
+	if (DataTable)
+	{
+		static const FString ContextString(TEXT("Request"));
+		TArray<FName> RowNames;
+		RowNames = DataTable->GetRowNames();
+		for (auto& name : RowNames)
+		{
+			FShopRequest* row = DataTable->FindRow<FShopRequest>(name, ContextString);
+			if (row)
+			{
+				if (row->ShopRequest == myShopRequests)
+				{
+					//UE_LOG(LogTemp, Warning, TEXT("Found Match at: %s"), *(row->InventoryDescription));
+					Desc_Req = row->Dialog;
+				}
+				//UE_LOG(LogTemp, Warning, TEXT("Looking at: %s"), *(row->InventoryDescription));
+			}
+		}
+	}
+	else
+		UE_LOG(LogTemp, Warning, TEXT("Datatable Not Loaded"));
+
+	//Desc_Quest   MyAssetPathQuest
+
+	TArray<FString> allQuests;
+	UE_LOG(LogTemp, Warning, TEXT("      Now Trying To Load Quest  "));
+	DataTable = (UDataTable*)MyAssetPathQuest.TryLoad();
+	if (DataTable)
+	{
+		static const FString ContextString(TEXT("Quest"));
+		TArray<FName> RowNames;
+		RowNames = DataTable->GetRowNames();
+		for (auto& name : RowNames)
+		{
+			FQuest* row = DataTable->FindRow<FQuest>(name, ContextString);
+			if (row)
+			{
+				allQuests.Add(row->Dialog);
+				/*
+				if (*row == myQuest)
+				{
+					//UE_LOG(LogTemp, Warning, TEXT("Found Match at: %s"), *(row->InventoryDescription));
+					Desc_Quest = row->Dialog;
+				}
+				//UE_LOG(LogTemp, Warning, TEXT("Looking at: %s"), *(row->InventoryDescription));
+				*/
+			}
+		}
+		Desc_Quest = allQuests[rand() % allQuests.Num()];
+	}
+	else
+		UE_LOG(LogTemp, Warning, TEXT("Datatable Not Loaded"));
 
 
 
@@ -337,24 +429,118 @@ FString AGameLoop::getDialog(int32 Customer)
 		else if (myShopRequests == eShopRequests::Sell)
 		FinalPhrase = rand() % 5 ? FString(TEXT("Would you like to make an offer for this " + Desc_Element + Desc_Quest + " preventative spoon? I've been told it can carve out hearts too.")) : FString(TEXT("My Spoon is too big!"));
 	}
+	else
+	{
+		if (myShopRequests == eShopRequests::Buy)
+		{
+			FinalPhrase = FString(TEXT("Hello There, " + Desc_Item + "To defeat a " + Desc_Element + " " + Desc_Quest + "." + Desc_Req));
+		}
+		else if (myShopRequests == eShopRequests::Sell)
+		{
+			FinalPhrase = FString(TEXT("Hello There, " + Dia_Element + "  " + Desc_Item + " here that has defeated the mighty " + Desc_Quest + "." + Desc_Req));
+		}
+	}
 
-
-	return FString(TEXT("Hello there, arrows to defeat a Fire Breathing Racoon. Do you have any?"));
+	return FinalPhrase; //FString(TEXT("Hello there, arrows to defeat a Fire Breathing Racoon. Do you have any?"));
 }
 
+// This is the customer buying
 bool AGameLoop::ReceiveItem(int32 Customer, FItem i)
 {
-	return false;
+	//Sell Item
+	
+	bool CustHappy = false;
+	FCustomer* cust = &Customers[Customer];
+
+	// Remove from inventory
+	UE_LOG(LogTemp, Warning, TEXT("      Now Trying To Load ItemDescriptions  "));
+	if (Store_stock)
+	{
+		static const FString ContextString(TEXT("Item"));
+		TArray<FName> RowNames;
+		RowNames = Store_stock->GetRowNames();
+		for (auto& name : RowNames)
+		{
+			FStocks* row = Store_stock->FindRow<FStocks>(name, ContextString);
+			if (row)
+			{
+				if (row->Item == i)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Found at: %s"), *(row->Item.InventoryDescription));
+					CustHappy = true;
+					Store_Coin += GetItemValue(&i, Prior_Kingdom_Status);
+					row->Count--;
+				}
+				//UE_LOG(LogTemp, Warning, TEXT("Looking at: %s"), *(row->InventoryDescription));
+			}
+		}
+	}
+	else
+		UE_LOG(LogTemp, Warning, TEXT("Datatable Not Loaded"));
+
+	if (!CustHappy)
+	{
+		//Wasn't foud
+	}
+	CustHappy = false;
+
+	// Does item match the needs?
+	
+	if(cust->ItemType == i.ItemType)
+	{
+		if (cust->Element == eElement::Neutral)
+		{
+			CustHappy = true;
+		}
+		else
+		{
+			if (cust->Element == i.Element)
+			{
+				CustHappy = true;
+			}
+		}
+	}
+	EffectKingdom(cust, CustHappy);
+	cust->CoolDownTime += cust->ResetTime + (-0.5 * cust->Satisfaction);
+	cust->CoolDownTime = cust->CoolDownTime < 2? 2: cust->CoolDownTime;
+	//If not 
+	return CustHappy;
+	//return false;
 }
 
 bool AGameLoop::Ransom(int32 Customer, bool Decision)
 {
-	return Decision;
+	bool bribed = false;
+	if (Customers[Customer].Affiliation == PlayerAffiliation && !Decision)
+	{
+		PlayerAffiliation == eAffiliation::NA;
+	}
+	if (Decision && Store_Coin >= Customers[Customer].Gold)
+	{
+		PlayerAffiliation == Customers[Customer].Affiliation;
+		Store_Coin -= Customers[Customer].Gold;
+		bribed = true;
+	}
+	else
+	{
+		PlayerAffiliation == eAffiliation::NA;
+	}
+	Customers[Customer].CoolDownTime = Customers[Customer].ResetTime;
+	return bribed;
 }
 
 bool AGameLoop::SellItem(int32 Customer, FItem i, int32 value)
 {
-	return false;
+	bool CustHappy = false;
+	FCustomer* cust = &Customers[Customer];
+	if (value > GetItemValue(&i, Kingdom_Status + 0.2f))
+	{
+		CustHappy = false;
+	}
+	EffectKingdom(cust, CustHappy);
+	cust->CoolDownTime += cust->ResetTime + (-0.5 * cust->Satisfaction);
+	cust->CoolDownTime = cust->CoolDownTime < 2 ? 2 : cust->CoolDownTime;
+	return CustHappy;
 }
 
 FItem AGameLoop::StealItem(int32 Customer)
@@ -369,4 +555,18 @@ void AGameLoop::CraftItem(FItem CraftedItem)
 int32 AGameLoop::GetItemValue(FItem* item, float KingdomStatus)
 {
 	return (int32) item->MinValue + ((item->MaxValue - item->MinValue) * KingdomStatus);
+}
+
+void AGameLoop::EffectKingdom(FCustomer * cust, bool Happy)
+{
+	if(Happy)
+	{
+		cust->Satisfaction++;
+		Kingdom_Status += (cust->Quest.impact) * (cust->Affiliation == eAffiliation::Mob ? PlayerAffiliation == cust->Affiliation ? -0.2 : -1 : 1);
+	}
+	else
+	{
+		cust->Satisfaction--;
+		Kingdom_Status += (cust->Quest.impact) * (cust->Affiliation == eAffiliation::Mob ? 1 : -1);
+	}
 }
