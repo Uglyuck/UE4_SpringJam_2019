@@ -23,6 +23,25 @@ AGameLoop::AGameLoop()
 
 
 
+	FCustomer myCustomer;// = new FCustomer;
+	myCustomer.Affiliation = eAffiliation::Gov;
+	myCustomer.ID = 1;
+	myCustomer.Charisma = 0;
+	myCustomer.CoolDownTime = rand() % Setup_MaxStartCooldown;
+	myCustomer.ResetTime = myCustomer.CoolDownTime;
+	myCustomer.CustomerType = eCustomerType::Customer;
+	myCustomer.LastResult = false;
+	myCustomer.Element = eElement::Neutral;
+	myCustomer.ItemType = eItemType::Spoon;
+	myCustomer.Gold = 0;
+// Try out some of this!
+//Customers[x].Name
+	myCustomer.Satisfaction = 0.5f;
+	myCustomer.ShopRequest = eShopRequests::Buy;
+
+	Customers.Init(myCustomer, 50);
+
+
 	FStringAssetReference MyStocksPath("DataTable'/Game/Mechanics/InventorySystem/InventoryStocks.InventoryStocks'");
 	Store_stock = (UDataTable*) MyStocksPath.TryLoad();
 	
@@ -49,7 +68,7 @@ AGameLoop::AGameLoop()
 		UE_LOG(LogTemp, Warning, TEXT("Datatable Not Loaded"));
 
 
-
+	TotalItems = 1;
 
 
 	
@@ -98,15 +117,15 @@ void AGameLoop::NewGame()
 	UE_LOG(LogTemp, Warning, TEXT("Setting up a new game"));
 
 	//Clean the variables.
-	DayNumber = 1;
+	
 	Store_Coin = Setup_StoreCoin;
 	PriorDayCoin = 0;
 	RentMade = true;
 	RentCost = Setup_RentCost;
 	RentMissed = 0;
-
-
-
+	Prior_Kingdom_Status = 999;
+	DayNumber = 1;
+	
 	n = -1;
 	// Fill Customers
 	int t = Customers.Num();
@@ -178,13 +197,13 @@ void AGameLoop::NewGame()
 				UE_LOG(LogTemp, Warning, TEXT("Loaded: %s"), *(row->InventoryDescription));
 			}
 		}
+		TotalItems = i;
 	}
-
 	else
 		UE_LOG(LogTemp, Warning, TEXT("Datatable Not Loaded"));
 
 
-
+	Prior_Kingdom_Status = 999;
 	
 }
 /*
@@ -195,6 +214,7 @@ constexpr int n()
 */
 TArray<int32> AGameLoop::getDaysCustomers()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Getting all the customers"));
 	int GetCount = 0;
 	for (int x = Customers.Num(); x--;)
 	{
@@ -211,6 +231,11 @@ TArray<int32> AGameLoop::getDaysCustomers()
 	{
 		if (Customers[x].CoolDownTime <= 0)
 		{
+			
+			auto& name = Store_stock->GetRowNames()[rand() % TotalItems];
+			FStocks* row = Store_stock->FindRow<FStocks>(name, "Rows");
+			Customers[x].SellItem = row->Item;
+
 			Customers[x].Element = (eElement)(rand() % 5);
 			Customers[x].ItemType = (eItemType) (rand() % 5);
 			Customers[x].ShopRequest = (rand() % 100) - (Setup_BuyRatio *100) <= 0? eShopRequests::Buy : eShopRequests::Sell;
@@ -232,6 +257,7 @@ void AGameLoop::NextDay()
 
 FString AGameLoop::getDialog(int32 Customer)
 {
+	
 	eItemType myItemType= Customers[Customer].ItemType;
 	FString Desc_Item = "";
 	eElement myElement = Customers[Customer].Element;
@@ -312,7 +338,7 @@ bool AGameLoop::Ransom(int32 Customer, bool Decision)
 	return Decision;
 }
 
-bool AGameLoop::SellItem(int32 Customer, FItem i)
+bool AGameLoop::SellItem(int32 Customer, FItem i, int32 value)
 {
 	return false;
 }
