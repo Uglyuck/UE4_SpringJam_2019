@@ -36,7 +36,7 @@ AGameLoop::AGameLoop()
 	myCustomer.Gold = 0;
 // Try out some of this!
 //Customers[x].Name
-	myCustomer.Satisfaction = 0.5f;
+	myCustomer.Satisfaction = 0;
 	myCustomer.ShopRequest = eShopRequests::Buy;
 
 	Customers.Init(myCustomer, 50);
@@ -124,6 +124,7 @@ void AGameLoop::NewGame()
 	RentCost = Setup_RentCost;
 	RentMissed = 0;
 	Prior_Kingdom_Status = 999;
+	Kingdom_Status = 0.5;
 	DayNumber = 1;
 	
 	n = -1;
@@ -153,19 +154,21 @@ void AGameLoop::NewGame()
 		Customers[x].Satisfaction = 0.5f;
 		Customers[x].ShopRequest = eShopRequests::Buy;
 	}
-	/*
+	
 	// Setup Bosses
 	for (int x = Setup_MobBossCount; x--;)
 	{
 		Customers[x].CustomerType = eCustomerType::Boss;
 		Customers[x].ResetTime = Setup_MobBossCooldown;
+		Customers[x].Gold = RansomeAmount;
 	}
 	for (int x = Setup_GovBossCount; x--;)
 	{
 		Customers[t - x].CustomerType = eCustomerType::Boss;
 		Customers[t - x].ResetTime = Setup_GovBossCooldown;
+		Customers[t - x].Gold = RansomeAmount;
 	}
-	*/
+	
 	
 
 	//LoadItems
@@ -203,7 +206,8 @@ void AGameLoop::NewGame()
 		UE_LOG(LogTemp, Warning, TEXT("Datatable Not Loaded"));
 
 
-	Prior_Kingdom_Status = 999;
+	//Prior_Kingdom_Status = 999;
+	Prior_Kingdom_Status = 0.5;
 	
 }
 /*
@@ -435,19 +439,103 @@ FString AGameLoop::getDialog(int32 Customer)
 	return FinalPhrase; //FString(TEXT("Hello there, arrows to defeat a Fire Breathing Racoon. Do you have any?"));
 }
 
+// This is the customer buying
 bool AGameLoop::ReceiveItem(int32 Customer, FItem i)
 {
-	return false;
+	//Sell Item
+	
+	bool CustHappy = false;
+	FCustomer* cust = &Customers[Customer];
+
+	// Remove from inventory
+	UE_LOG(LogTemp, Warning, TEXT("      Now Trying To Load ItemDescriptions  "));
+	if (Store_stock)
+	{
+		static const FString ContextString(TEXT("Item"));
+		TArray<FName> RowNames;
+		RowNames = Store_stock->GetRowNames();
+		for (auto& name : RowNames)
+		{
+			FStocks* row = Store_stock->FindRow<FStocks>(name, ContextString);
+			if (row)
+			{
+				if (row->Item == i)
+				{
+					UE_LOG(LogTemp, Warning, TEXT("Found at: %s"), *(row->Item.InventoryDescription));
+					CustHappy = true;
+					Store_Coin += GetItemValue(&i, Prior_Kingdom_Status);
+					row->Count--;
+				}
+				//UE_LOG(LogTemp, Warning, TEXT("Looking at: %s"), *(row->InventoryDescription));
+			}
+		}
+	}
+	else
+		UE_LOG(LogTemp, Warning, TEXT("Datatable Not Loaded"));
+
+	if (!CustHappy)
+	{
+		//Wasn't foud
+	}
+	CustHappy = false;
+
+	// Does item match the needs?
+	
+	if(cust->ItemType == i.ItemType)
+	{
+		if (cust->Element == eElement::Neutral)
+		{
+			CustHappy = true;
+		}
+		else
+		{
+			if (cust->Element == i.Element)
+			{
+				CustHappy = true;
+			}
+		}
+	}
+	EffectKingdom(cust, CustHappy);
+	cust->CoolDownTime += cust->ResetTime + (-0.5 * cust->Satisfaction);
+	cust->CoolDownTime = cust->CoolDownTime < 2? 2: cust->CoolDownTime;
+	//If not 
+	return CustHappy;
+	//return false;
 }
 
 bool AGameLoop::Ransom(int32 Customer, bool Decision)
 {
-	return Decision;
+	bool bribed = false;
+	if (Customers[Customer].Affiliation == PlayerAffiliation && !Decision)
+	{
+		PlayerAffiliation == eAffiliation::NA;
+	}
+	if (Decision && Store_Coin >= Customers[Customer].Gold)
+	{
+		PlayerAffiliation == Customers[Customer].Affiliation;
+		Store_Coin -= Customers[Customer].Gold;
+		bribed = true;
+	}
+	else
+	{
+		PlayerAffiliation == eAffiliation::NA;
+	}
+	Customers[Customer].CoolDownTime = Customers[Customer].ResetTime;
+	return bribed;
 }
 
 bool AGameLoop::SellItem(int32 Customer, FItem i, int32 value)
 {
-	return false;
+	bool CustHappy = false;
+	FCustomer* cust = &Customers[Customer];
+	if (value > GetItemValue(&i, Kingdom_Status + 0.2f))
+	{
+		CustHappy = false;
+	}
+	EffectKingdom(cust, CustHappy);
+	cust->CoolDownTime += cust->ResetTime + (-0.5 * cust->Satisfaction);
+	cust->CoolDownTime = cust->CoolDownTime < 2 ? 2 : cust->CoolDownTime;
+	return CustHappy;
 }
 
 FItem AGameLoop::StealItem(int32 Customer)
@@ -462,4 +550,18 @@ void AGameLoop::CraftItem(FItem CraftedItem)
 int32 AGameLoop::GetItemValue(FItem* item, float KingdomStatus)
 {
 	return (int32) item->MinValue + ((item->MaxValue - item->MinValue) * KingdomStatus);
+}
+
+void AGameLoop::EffectKingdom(FCustomer * cust, bool Happy)
+{
+	if(Happy)
+	{
+		cust->Satisfaction++;
+		Kingdom_Status += (cust->Quest.impact) * (cust->Affiliation == eAffiliation::Mob ? PlayerAffiliation == cust->Affiliation ? -0.2 : -1 : 1);
+	}
+	else
+	{
+		cust->Satisfaction--;
+		Kingdom_Status += (cust->Quest.impact) * (cust->Affiliation == eAffiliation::Mob ? 1 : -1);
+	}
 }

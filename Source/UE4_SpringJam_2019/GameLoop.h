@@ -82,7 +82,7 @@ public:
 		float Setup_BuyRatio;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setup")
 		int32 Setup_MaxStartCooldown;
-
+	int32 RansomeAmount;
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setup")
 	//	float Setup_MaxStartCooldown;
 
@@ -146,7 +146,7 @@ private:
 	int n;
 	int TotalItems;
 	int32 GetItemValue(FItem* item, float KingdomStatus);
-
+	void EffectKingdom(FCustomer* cust, bool Happy);
 	//FItem* FindItem(FItem myItem);
 };
 

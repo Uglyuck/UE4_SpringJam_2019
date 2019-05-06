@@ -3,6 +3,7 @@
 #pragma once
 
 #include "Engine/DataTable.h"
+#include "Engine/Texture2D.h"
 #include "CoreMinimal.h"
 #include "Components/SceneComponent.h"
 #include "Stock.generated.h"
@@ -79,6 +80,8 @@ public:
 		int32 MaxValue;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int32 StartingCount;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UTexture2D* InventoryTexture;
 
 	bool operator==(FItem &o) 
 	{
