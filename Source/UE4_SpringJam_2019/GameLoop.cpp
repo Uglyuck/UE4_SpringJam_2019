@@ -232,9 +232,23 @@ TArray<int32> AGameLoop::getDaysCustomers()
 		if (Customers[x].CoolDownTime <= 0)
 		{
 			
-			auto& name = Store_stock->GetRowNames()[rand() % TotalItems];
-			FStocks* row = Store_stock->FindRow<FStocks>(name, "Rows");
-			Customers[x].SellItem = row->Item;
+			FName& name = Store_stock->GetRowNames()[rand() % TotalItems];
+			if(name.IsValid())
+			{
+				FStocks* row = Store_stock->FindRow<FStocks>(name, "Rows");
+				if(row)
+				{
+					Customers[x].SellItem = row->Item;
+				}
+				else
+				{
+					UE_LOG(LogTemp, Warning, TEXT("---- Build issue with your version..."));
+				}
+			}
+			else
+			{
+				UE_LOG(LogTemp, Warning, TEXT("---- Build issue with your version..."));
+			}
 
 			Customers[x].Element = (eElement)(rand() % 5);
 			Customers[x].ItemType = (eItemType) (rand() % 5);
