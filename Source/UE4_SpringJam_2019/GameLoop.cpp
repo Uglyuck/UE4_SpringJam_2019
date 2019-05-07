@@ -458,8 +458,12 @@ FString AGameLoop::getDialog(int32 Customer)
 // This is the customer buying
 bool AGameLoop::ReceiveItem(int32 Customer, FItem i)
 {
+	if (Customer > Customers.Num() || Customer < 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ERRROOOOORRRRR - Number for customer is not in range... %i"), &Customer);
+		return false;
+	}
 	//Sell Item
-	
 	bool CustHappy = false;
 	FCustomer* cust = &Customers[Customer];
 
@@ -504,6 +508,11 @@ bool AGameLoop::ReceiveItem(int32 Customer, FItem i)
 bool AGameLoop::Ransom(int32 Customer, bool Decision)
 {
 	bool bribed = false;
+	if (Customer > Customers.Num() || Customer < 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ERRROOOOORRRRR - Number for customer is not in range... %i"), &Customer);
+		return false;
+	}
 	if (Customers[Customer].Affiliation == PlayerAffiliation && !Decision)
 	{
 		PlayerAffiliation == eAffiliation::NA;
@@ -524,6 +533,11 @@ bool AGameLoop::Ransom(int32 Customer, bool Decision)
 
 bool AGameLoop::SellItem(int32 Customer, FItem i, int32 value)
 {
+	if (Customer > Customers.Num() || Customer < 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("ERRROOOOORRRRR - Number for customer is not in range... %i"), &Customer);
+		return false;
+	}
 	bool CustHappy = false;
 	FCustomer* cust = &Customers[Customer];
 	if (value > GetItemValue(&i, Kingdom_Status + 0.2f))
@@ -542,6 +556,7 @@ bool AGameLoop::SellItem(int32 Customer, FItem i, int32 value)
 
 void AGameLoop::NextDay()
 {
+	Playing = true;
 	RentMade = RentCost < Store_Coin;
 	if (RentMade)
 	{
