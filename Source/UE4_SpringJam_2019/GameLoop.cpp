@@ -22,6 +22,8 @@ AGameLoop::AGameLoop()
 	srand(int(FDateTime::Now().GetTicks()));
 
 
+	// cURVE number of people per day
+
 
 	FCustomer myCustomer;// = new FCustomer;
 	myCustomer.Affiliation = eAffiliation::Gov;
