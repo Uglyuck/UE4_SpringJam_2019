@@ -49,7 +49,7 @@ AGameLoop::AGameLoop()
 	
 	/*
 	Testing Purposes
-	*/
+	
 	FStringAssetReference MyAssetPath("DataTable'/Game/Mechanics/Customers/Names/CustomerNames_DataTable.CustomerNames_DataTable'");
 	UDataTable* DataTable = (UDataTable*) MyAssetPath.TryLoad();
 	if (DataTable)
@@ -69,7 +69,7 @@ AGameLoop::AGameLoop()
 	else
 		UE_LOG(LogTemp, Warning, TEXT("Datatable Not Loaded"));
 
-
+		*/
 	TotalItems = 1;
 
 
