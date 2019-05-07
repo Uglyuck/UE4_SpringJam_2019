@@ -10,7 +10,7 @@ AGameLoop::AGameLoop()
 {//PrimaryComponentTick.bCanEverTick = false;
 	//NewGame();
 	UE_LOG(LogTemp, Warning, TEXT("GameLoop Being Made"));
-	
+	Playing = true;
 	Setup_StoreCoin = 5000;
 	Setup_RentCost = 30;
 	Setup_MobBossCount = 3;
@@ -568,6 +568,7 @@ void AGameLoop::NextDay()
 		RentMissed++;
 		if (RentMissed >= 3)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("      Rent wasn't made!"));
 			Playing = false;
 		}
 	}
@@ -575,6 +576,7 @@ void AGameLoop::NextDay()
 	DayNumber++;
 	if (Kingdom_Status < 0)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("      Kingdom Sataus too low"));
 		Playing = false;
 	}
 	// Move people
