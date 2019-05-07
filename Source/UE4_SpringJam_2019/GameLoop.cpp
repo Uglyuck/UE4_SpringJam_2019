@@ -10,7 +10,7 @@ AGameLoop::AGameLoop()
 {//PrimaryComponentTick.bCanEverTick = false;
 	//NewGame();
 	UE_LOG(LogTemp, Warning, TEXT("GameLoop Being Made"));
-	
+	Playing = true;
 	Setup_StoreCoin = 5000;
 	Setup_RentCost = 30;
 	Setup_MobBossCount = 3;
@@ -473,6 +473,7 @@ bool AGameLoop::ReceiveItem(int32 Customer, FItem i)
 	{
 		CustHappy = true;
 		Store_Coin += GetItemValue(&i, Prior_Kingdom_Status);
+		UE_LOG(LogTemp, Warning, TEXT("Remaining coin is... %i"), &Store_Coin);
 	}
 	
 
@@ -520,13 +521,15 @@ bool AGameLoop::Ransom(int32 Customer, bool Decision)
 	if (Decision && Store_Coin >= Customers[Customer].Gold)
 	{
 		PlayerAffiliation == Customers[Customer].Affiliation;
-		Store_Coin -= Customers[Customer].Gold;
+		Store_Coin = Store_Coin - Customers[Customer].Gold;
+		UE_LOG(LogTemp, Warning, TEXT("Remaining coin is... %i"), &Store_Coin);
 		bribed = true;
 	}
 	else
 	{
 		PlayerAffiliation == eAffiliation::NA;
 	}
+	UE_LOG(LogTemp, Warning, TEXT("Remaining coin is... %i"), &Store_Coin);
 	Customers[Customer].CoolDownTime = Customers[Customer].ResetTime;
 	return bribed;
 }
@@ -540,12 +543,15 @@ bool AGameLoop::SellItem(int32 Customer, FItem i, int32 value)
 	}
 	bool CustHappy = false;
 	FCustomer* cust = &Customers[Customer];
-	if (value > GetItemValue(&i, Kingdom_Status + 0.2f))
+	if (value > GetItemValue(&i, Kingdom_Status + 0.2f) && Store_Coin > value)
 	{
+		Store_Coin -= value;
+		// Add to inventory
+		AddItem(i);
 		CustHappy = true;
+		UE_LOG(LogTemp, Warning, TEXT("Remaining coin is... %i"), &Store_Coin);
 	}
-	// Add to inventory
-	AddItem(i);
+	
 
 
 	EffectKingdom(cust, CustHappy);
@@ -568,6 +574,7 @@ void AGameLoop::NextDay()
 		RentMissed++;
 		if (RentMissed >= 3)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("      Rent wasn't made!"));
 			Playing = false;
 		}
 	}
@@ -575,6 +582,7 @@ void AGameLoop::NextDay()
 	DayNumber++;
 	if (Kingdom_Status < 0)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("      Kingdom Sataus too low"));
 		Playing = false;
 	}
 	// Move people
