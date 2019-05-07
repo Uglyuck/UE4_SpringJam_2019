@@ -553,14 +553,14 @@ void AGameLoop::NextDay()
 		RentMissed++;
 		if (RentMissed >= 3)
 		{
-			Playing == false;
+			Playing = false;
 		}
 	}
 
 	DayNumber++;
 	if (Kingdom_Status < 0)
 	{
-		Playing == false;
+		Playing = false;
 	}
 	// Move people
 	bool KingdomDown = Prior_Kingdom_Status > Kingdom_Status;
