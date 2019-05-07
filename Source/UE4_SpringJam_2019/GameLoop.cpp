@@ -11,7 +11,7 @@ AGameLoop::AGameLoop()
 	//NewGame();
 	UE_LOG(LogTemp, Warning, TEXT("GameLoop Being Made"));
 	
-	Setup_StoreCoin = 50;
+	Setup_StoreCoin = 5000;
 	Setup_RentCost = 30;
 	Setup_MobBossCount = 3;
 	Setup_GovBossCount = 3;
@@ -154,7 +154,7 @@ void AGameLoop::NewGame()
 		// Try out some of this!
 		//Customers[x].Name
 		Customers[x].Satisfaction = 0.5f;
-		Customers[x].ShopRequest = eShopRequests::Buy;
+		Customers[x].ShopRequest = rand() % 2 ? eShopRequests::Buy : eShopRequests::Sell;
 	}
 	
 	// Setup Bosses
@@ -542,7 +542,7 @@ bool AGameLoop::SellItem(int32 Customer, FItem i, int32 value)
 	FCustomer* cust = &Customers[Customer];
 	if (value > GetItemValue(&i, Kingdom_Status + 0.2f))
 	{
-		CustHappy = false;
+		CustHappy = true;
 	}
 	// Add to inventory
 	AddItem(i);
