@@ -19,6 +19,7 @@ AGameLoop::AGameLoop()
 	Setup_GovBossCooldown = 6;
 	Setup_MobRatio = 0.3f;
 	Setup_MaxStartCooldown = 10;
+	Setup_BuyRatio = 0.5;
 	srand(int(FDateTime::Now().GetTicks()));
 
 
@@ -282,7 +283,7 @@ TArray<int32> AGameLoop::getDaysCustomers()
 
 			Customers[x].Element = (eElement)(rand() % 5);
 			Customers[x].ItemType = (eItemType) (rand() % 5);
-			Customers[x].ShopRequest = (rand() % 100) - (Setup_BuyRatio *100) <= 0? eShopRequests::Buy : eShopRequests::Sell;
+			Customers[x].ShopRequest = rand() % 2 ? eShopRequests::Buy : eShopRequests::Sell;// (rand() % 100) - (Setup_BuyRatio *100) <= 0? eShopRequests::Buy : eShopRequests::Sell;
 			Customers[x].Gold = 500;
 			// For the quests
 			//Customers[x].
